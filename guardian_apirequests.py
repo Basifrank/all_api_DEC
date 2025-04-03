@@ -1,15 +1,24 @@
 import os
 import requests
 import pandas as pd
+import awswrangler as wr
 from dotenv import load_dotenv, dotenv_values
 load_dotenv()
+
+
+
+# s3 environment
+raw_s3_bucket = "chigozieobasi"
+raw_path_dir = "guardian_api"
+csv_path = "nigeria_data"
+write_path = f"s3://{raw_s3_bucket}/{raw_path_dir}/{csv_path}"
 
 # Load environment variables from .env file
 
 baseurl = "https://content.guardianapis.com/search"
 api_key = os.getenv("GUARDIAN_API_KEY")
 from_date = "2025-03-01"
-to_date = "2025-04-01"
+to_date = "2025-04-03"
 country = "Nigeria"
 
 
@@ -51,6 +60,6 @@ for x in range(1, get_pages(data)+1):
 
 dataframe = pd.DataFrame(mainlist)
 
-dataframe.to_csv("updated_data_MarApr.csv", index=False)
 
-print(dataframe.head())
+# Writing to S3
+wr.s3.to_parquet(df=dataframe, path=write_path +"/march_to_april03_2025", dataset=True, mode="append")
