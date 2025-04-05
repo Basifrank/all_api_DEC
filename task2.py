@@ -25,15 +25,13 @@ def get_api_data(api_url):
     return data
 
 
-
 data = get_api_data(api_url)
-
 
 competition_names = []
 for names in data["competitions"]:
     competition_names.append(names["name"])
 
-df_competition = pd.DataFrame(competition_names, columns=["competition_name"])
+competition = pd.DataFrame(competition_names, columns=["competition_name"])
 
 # Writing to S3
-wr.s3.to_parquet(df=df_competition, path=write_path, dataset=True, mode="append")
+wr.s3.to_parquet(df=competition, path=write_path, dataset=True, mode="append")

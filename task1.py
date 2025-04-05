@@ -6,10 +6,11 @@ import awswrangler as wr
 raw_s3_bucket = "chigozieobasi"
 raw_path_dir = "jobicy_api"
 csv_path = "job_roles"
-write_path = f"s3://{raw_s3_bucket}/{raw_path_dir}/{csv_path}"
+ur = f"s3://{raw_s3_bucket}/{raw_path_dir}/{csv_path}"
 
 # API url
-api_url = "https://jobicy.com/api/v2/remote-jobs?count=20&geo=usa&industry=marketing&tag=seo"
+api_url = "https://jobicy.com/api/v2/remote-j\
+obs?count=20&geo=usa&industry=marketing&tag=seo"
 
 
 def get_api_data(api_url):
@@ -34,7 +35,7 @@ manager_roles = []
 
 for job in data['jobs']:
     if "Senior" in job["jobTitle"]:
-        senior_roles.append(job["jobTitle"]) 
+        senior_roles.append(job["jobTitle"])
     if "Manager" in job["jobTitle"]:
         manager_roles.append(job["jobTitle"])
 senior_roles = {
@@ -45,10 +46,10 @@ manager_roles = {
 }
 
 
-df_senior_roles = pd.DataFrame(senior_roles)
-df_manager_roles = pd.DataFrame(manager_roles)
+senior = pd.DataFrame(senior_roles)
+manager = pd.DataFrame(manager_roles)
 
 
-#Writing to S3
-wr.s3.to_parquet(df=df_senior_roles, path=write_path + "/senior_roles", dataset=True, mode="append")
-wr.s3.to_parquet(df=df_manager_roles, path=write_path + "/manager_roles", dataset=True, mode="append")
+# Writing to S3
+wr.s3.to_parquet(df=senior, path=ur + "/senior", dataset=True, mode="append")
+wr.s3.to_parquet(df=manager, path=ur + "/manager", dataset=True, mode="append")
