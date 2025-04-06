@@ -1,6 +1,6 @@
+import awswrangler as wr
 import pandas as pd
 import requests
-import awswrangler as wr
 
 # loading aws S3 bucket locations
 raw_s3_bucket = "chigozieobasi"

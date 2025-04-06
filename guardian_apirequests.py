@@ -1,8 +1,10 @@
 import os
-import requests
-import pandas as pd
+
 import awswrangler as wr
+import pandas as pd
+import requests
 from dotenv import load_dotenv
+
 load_dotenv()
 
 
